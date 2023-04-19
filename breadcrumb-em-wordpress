@@ -1,0 +1,33 @@
+<div class="breadcrumb">
+    <a href="<?php echo home_url(); ?>" class="home">Home</a>
+
+    <span class="seta"> > </span>
+    
+    <?php 
+        global $post; 
+        $count = 1;
+        $loop = 0;
+ 
+        while($loop == 0 && $count < 10){ 
+            $currentp = $post->post_title; 
+            $parents = get_post_ancestors( $post->ID ); 
+            $id = ($parents) ? $parents[count($parents)-$count]: $post->ID; 
+            $parent = get_post( $id );
+            $name = $parent->post_title; 
+            $url = get_permalink($parent);    
+
+            if( $name == $currentp ){
+                echo "<strong>".$currentp."</strong>"; 
+                $loop++;
+            }
+            else{ ?>                
+                <a href="<?php echo $url; ?>" >
+                    <?php echo $name; ?>
+                </a>
+                <span class="seta"> > </span>
+    <?php
+            }
+            $count++;
+        } 
+    ?> 
+</div>
